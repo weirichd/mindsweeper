@@ -1,2 +1,2 @@
 # mindsweeper
-AI to that plays Minesweeper
+AI that plays Minesweeper

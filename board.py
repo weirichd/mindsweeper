@@ -45,7 +45,7 @@ class Board:
         """
 
         if self.counts[i, j] != 0:
-            self.view[i, i] = self.counts[i, j]
+            self.view[i, j] = self.counts[i, j]
         else:
             q = Queue()
             q.put((i, j))
@@ -66,7 +66,20 @@ class Board:
     def score(self):
         """
         The current player's score. This is just the number of revealed squares.
+        If the player has won, they also receive one point per mine.
         :return:
         """
 
-        return (self.view != -1).sum()
+        score = (self.view != -1).sum()
+
+        if score == self.width * self.height - self.mine_count:
+            score = self.width * self.height
+
+        return score
+
+    def game_won(self):
+        return self.score() == self.width * self.height
+
+    def any_mines_revealed(self):
+        showing_mines = self.mines & (self.view != -1)
+        return showing_mines.any()
